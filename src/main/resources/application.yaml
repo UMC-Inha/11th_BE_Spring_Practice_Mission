@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: umc_11th-web_spring
