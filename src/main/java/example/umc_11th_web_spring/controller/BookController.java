@@ -29,14 +29,4 @@ public class BookController {
     public BookResponse createBook(@Valid @RequestBody CreateBookRequest request) {
         return bookService.createBook(request);
     }
-
-    /*
-    // 카테고리별 도서 목록 조회
-    @GetMapping("/category/{categoryId}")
-    public List<Map<String, Object>> getBooksByCategory(
-            @PathVariable Long categoryId
-    ) {
-        return bookService.getBooksByCategory(categoryId);
-    }
-    */
 }
