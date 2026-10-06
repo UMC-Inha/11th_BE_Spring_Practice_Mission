@@ -1,30 +1,36 @@
-// src/main/java/example/umc_11th_web_spring/service/BookService.java
 package example.umc_11th_web_spring.service;
-
+import example.umc_11th_web_spring.exception.CategoryNotFoundException;
+import example.umc_11th_web_spring.dto.BookResponse;
+import example.umc_11th_web_spring.dto.CreateBookRequest;
+import example.umc_11th_web_spring.entity.Book;
+import example.umc_11th_web_spring.entity.Category;
 import example.umc_11th_web_spring.repository.BookRepository;
+import example.umc_11th_web_spring.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
-@Service // 비즈니스 로직을 수행하는 메인 셰프 계층
+@Service
 @RequiredArgsConstructor
 public class BookService {
-
-    // 창고지기(Repository)를 생성자 주입으로 데려옵니다.
     private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
 
-    public List<Map<String, Object>> getAllBooks() {
-        // 지금은 별도 가공 없이 창고지기가 가져온 도서 목록을 그대로 반환합니다.
-        return bookRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<BookResponse> getBooks() {
+        return bookRepository.findAllByOrderByBookIdDesc().stream()
+                .map(BookResponse::from)
+                .toList();
     }
 
-    public void createBook(Map<String, Object> body){
-        bookRepository.save(body);
-    }
+    @Transactional
+    public BookResponse createBook(CreateBookRequest request) {
+        Category category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(CategoryNotFoundException::new);
 
-    public List<Map<String, Object>> getBooksByCategory(Long categoryId) {
-        return bookRepository.findByCategoryId(categoryId);
+        Book book = new Book(category, request.title(), request.description());
+        return BookResponse.from(bookRepository.save(book));
     }
 }
