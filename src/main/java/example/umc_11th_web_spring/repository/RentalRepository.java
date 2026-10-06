@@ -30,6 +30,7 @@ public class RentalRepository {
         UPDATE rental
         SET returned_at = NOW()
         WHERE rental_id = ?
+        AND returned_at IS NULL
         """;
 
         return jdbcTemplate.update(sql, rentalId);
