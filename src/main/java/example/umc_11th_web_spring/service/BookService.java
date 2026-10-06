@@ -1,6 +1,6 @@
 package example.umc_11th_web_spring.service;
 
-import example.umc_11th_web_spring.BookRepository.BookRepository;
+import example.umc_11th_web_spring.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
