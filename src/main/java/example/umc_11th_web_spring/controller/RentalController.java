@@ -1,0 +1,27 @@
+package example.umc_11th_web_spring.controller;
+
+import example.umc_11th_web_spring.service.RentalService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/rentals")
+@RequiredArgsConstructor
+public class RentalController {
+
+    private final RentalService rentalService;
+
+    @PostMapping
+    public Map<String, String> createRental(@RequestBody Map<String, Object> body) {
+        rentalService.createRental(body);
+
+        return Map.of(
+                "message", "도서 대여 기록이 생성되었습니다!"
+        );
+    }
+}
