@@ -15,6 +15,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findAllByOrderByBookIdDesc();
 
+    List<Book> findAllByTitleContaining(String keyword);
+
+    boolean existsByTitle(String title);
+
 //    private final JdbcTemplate jdbcTemplate;
 //
 //    public List<Map<String, Object>> findAll() {

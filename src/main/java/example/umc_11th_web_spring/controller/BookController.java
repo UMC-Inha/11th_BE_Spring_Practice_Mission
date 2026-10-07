@@ -27,6 +27,13 @@ public class BookController {
         return bookService.getBooks();
     }
 
+    @GetMapping(value = "/books", params = "keyword")
+    public List<BookResponse> getBooksByTitle(
+            @RequestParam String keyword
+    ) {
+        return bookService.getBooksByTitle(keyword);
+    }
+
 //    @GetMapping("/books/category/{categoryId}")
 //    public List<Map<String, Object>> getBooksByCategoryId(
 //            @PathVariable Long categoryId
