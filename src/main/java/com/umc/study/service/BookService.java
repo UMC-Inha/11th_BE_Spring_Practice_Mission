@@ -1,26 +1,39 @@
 package com.umc.study.service;
 
+import com.umc.study.dto.BookResponse;
+import com.umc.study.dto.CreateBookRequest;
+import com.umc.study.entity.Book;
+import com.umc.study.entity.Category;
+import com.umc.study.exception.CategoryNotFoundException;
 import com.umc.study.repository.BookRepository;
+import com.umc.study.repository.CategoryRepository;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
 
-    public List<Map<String, Object>> getAllBooks(){
-        return bookRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<BookResponse> getAllBooks() {
+        return bookRepository.findAllByOrderByBookIdDesc()
+                .stream()
+                .map(BookResponse::from)
+                .toList();
     }
 
-    public void createBook(Map<String, Object> body){
-        bookRepository.save(body);
-    }
+    @Transactional
+    public BookResponse createBook(CreateBookRequest request){
+        Category category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new CategoryNotFoundException(request.categoryId()));
 
-    public List<Map<String, Object>> getBooksByCategory(Long categoryId){
-        return bookRepository.findByCategoryId(categoryId);
+        Book book = new Book(category, request.title(), request.description());
+
+        return BookResponse.from(bookRepository.save(book));
     }
 }
