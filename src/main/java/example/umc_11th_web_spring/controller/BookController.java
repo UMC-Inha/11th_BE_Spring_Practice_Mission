@@ -1,8 +1,11 @@
 package example.umc_11th_web_spring.controller;
 
 import example.umc_11th_web_spring.dto.BookReqDTO;
+import example.umc_11th_web_spring.dto.BookResDTO;
 import example.umc_11th_web_spring.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,14 +18,14 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/books")
-    public List<Map<String, Object>> getBooks() {
-        return bookService.getAllBooks();
+    public List<BookResDTO.BookResponse> getBooks() {
+        return bookService.getBooks();
     }
 
     @PostMapping("/books")
-    public String createBook(@RequestBody Map<String, Object> body){
-        bookService.createBook(body);
-        return "도서 등록이 완료되었습니다!";
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookResDTO.BookResponse createBook(@RequestBody @Valid BookReqDTO.CreateBookRequest createBookReq) {
+        return bookService.createBook(createBookReq);
     }
 
     @GetMapping("/books/category/{categoryId}")
@@ -31,7 +34,7 @@ public class BookController {
     }
 
     @PostMapping("/rentals")
-    public String createRental(@RequestBody BookReqDTO.CreateRentalDTO createRentalDTO){
+    public String createRental(@RequestBody @Valid BookReqDTO.CreateRentalDTO createRentalDTO){
         bookService.createRental(createRentalDTO.userId(), createRentalDTO.bookId());
         return "대여가 완료되었습니다!";
     }
