@@ -1,11 +1,16 @@
 package com.example.springboot_mission.movie.repository;
 
 import com.example.springboot_mission.movie.entity.Rating;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
-    List<Rating> findByMember_MemberIdOrderByRatingIdDesc(Long memberId);
+    Page<Rating> findByMember_MemberIdOrderByRatingIdDesc(
+            Long memberId,
+            Pageable pageable
+    );
 }
