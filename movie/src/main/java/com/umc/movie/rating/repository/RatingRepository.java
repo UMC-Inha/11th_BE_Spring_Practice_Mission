@@ -1,9 +1,11 @@
-package com.umc.movie.repository;
+package com.umc.movie.rating.repository;
 
-import com.umc.movie.entity.Rating;
+import com.umc.movie.rating.entity.Rating;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     List<Rating> findByMember_MemberIdOrderByRatingIdDesc(Long memberId);
+
+    boolean existsByMember_MemberIdAndMovieId(Long memberId, Long movieId);
 }
