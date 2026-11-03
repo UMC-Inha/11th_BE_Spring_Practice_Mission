@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>5주차 API 테스트</title>
+</head>
+<body>
+<h2>영화 평점 서비스 API 테스트</h2>
+
+<button onclick="testNickname()">닉네임 중복 확인</button>
+<button onclick="testEmail()">이메일 중복 확인</button>
+<button onclick="testRatings()">회원 평점 조회</button>
+
+<pre id="result">버튼을 눌러주세요.</pre>
+
+<script>
+    const BASE_URL = "http://localhost:8080";
+
+    async function request(path) {
+        try {
+            const response = await fetch(BASE_URL + path);
+            const data = await response.json();
+
+            document.getElementById("result").textContent =
+                "HTTP " + response.status + "\n" +
+                JSON.stringify(data, null, 2);
+        } catch (error) {
+            document.getElementById("result").textContent =
+                "요청 실패: " + error.message;
+        }
+    }
+
+    function testNickname() {
+        request("/members/nickname/수현");
+    }
+
+    function testEmail() {
+        request("/members/email/noco@umc.com");
+    }
+
+    function testRatings() {
+        request("/members/1/ratings");
+    }
+</script>
+</body>
+</html>
