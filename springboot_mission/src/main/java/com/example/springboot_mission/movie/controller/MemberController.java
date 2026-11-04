@@ -1,5 +1,6 @@
 package com.example.springboot_mission.movie.controller;
 
+import com.example.springboot_mission.global.response.ApiResponse;
 import com.example.springboot_mission.movie.dto.*;
 import com.example.springboot_mission.movie.service.MemberService;
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.example.springboot_mission.movie.dto;
+package com.example.springboot_mission.global.response;
 
 public record ApiResponse<T>(boolean isSuccess, String code, String message, T result) {
     public static <T> ApiResponse<T> created(String message, T result) {

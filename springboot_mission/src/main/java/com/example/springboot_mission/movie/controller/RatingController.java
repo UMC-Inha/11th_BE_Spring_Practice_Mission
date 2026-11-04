@@ -1,6 +1,6 @@
 package com.example.springboot_mission.movie.controller;
 
-import com.example.springboot_mission.movie.dto.ApiResponse;
+import com.example.springboot_mission.global.response.ApiResponse;
 import com.example.springboot_mission.movie.dto.CreateRatingRequest;
 import com.example.springboot_mission.movie.dto.RatingResponse;
 import com.example.springboot_mission.movie.dto.UpdateRatingRequest;

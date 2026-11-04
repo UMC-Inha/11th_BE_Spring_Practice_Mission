@@ -1,5 +1,7 @@
 package com.example.springboot_mission.movie.service;
 
+import com.example.springboot_mission.global.exception.ProjectException;
+import com.example.springboot_mission.movie.code.AuthErrorCode;
 import com.example.springboot_mission.movie.dto.EmailCheckResponse;
 import com.example.springboot_mission.movie.dto.MemberResponse;
 import com.example.springboot_mission.movie.dto.NicknameCheckResponse;
@@ -33,11 +35,11 @@ public class MemberService {
     @Transactional
     public MemberResponse signUp(SignUpRequest request) {
         if(memberRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("이미 사용중인 이메일입니다.");
+            throw new ProjectException(AuthErrorCode.EMAIL_ALREADY_REGISTERED);
         }
 
         if(memberRepository.existsByNickname(request.nickname())) {
-            throw new IllegalArgumentException("이미 사용중인 닉네임입니다.");
+            throw new ProjectException(AuthErrorCode.NICKNAME_ALREADY_REGISTERED);
         }
 
         Member member = Member.builder()
