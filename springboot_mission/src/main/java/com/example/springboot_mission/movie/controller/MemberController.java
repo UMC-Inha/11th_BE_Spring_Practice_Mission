@@ -1,15 +1,14 @@
 package com.example.springboot_mission.movie.controller;
 
-import com.example.springboot_mission.movie.dto.EmailCheckResponse;
-import com.example.springboot_mission.movie.dto.NicknameCheckResponse;
+import com.example.springboot_mission.global.response.ApiResponse;
+import com.example.springboot_mission.movie.dto.*;
 import com.example.springboot_mission.movie.service.MemberService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,5 +29,14 @@ public class MemberController {
             @PathVariable @Email String email
     ) {
         return memberService.checkEmail(email);
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<MemberResponse>> signUp(
+            @Valid @RequestBody SignUpRequest request
+            ) {
+        MemberResponse response = memberService.signUp(request);
+
+        return ResponseEntity.status(201).body(ApiResponse.created("회원가입에 성공했습니다", response));
     }
 }
