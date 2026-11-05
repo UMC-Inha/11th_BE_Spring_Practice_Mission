@@ -1,14 +1,14 @@
 package com.umc.movie.controller;
 
-import com.umc.movie.dto.EmailCheckResponse;
-import com.umc.movie.dto.NicknameCheckResponse;
+import com.umc.movie.dto.*;
 import com.umc.movie.service.MemberService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "회원 API", description = "회원 관련 기능")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -24,6 +24,15 @@ public class MemberController {
     @GetMapping("/email/{email}")
     public EmailCheckResponse checkEmail(@PathVariable String email) {
         return memberService.checkEmail(email);
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<MemberResponse>> signUp(
+            @Valid @RequestBody SignUpRequest request
+    ){
+        MemberResponse response = memberService.signUp(request);
+        return ResponseEntity.status(201)
+                .body(ApiResponse.created("회원가입에 성공했습니다.", response));
     }
 
 }
