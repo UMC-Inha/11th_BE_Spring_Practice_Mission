@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.umc.movie.dto.MemberInfoResponse;
+import com.umc.movie.exception.ApiException;
+import org.springframework.http.HttpStatus;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +50,13 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
         return new MemberResponse(savedMember.getMemberId(), savedMember.getEmail(), savedMember.getNickname());
+    }
+
+    public MemberInfoResponse getMyInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
+                        "해당 회원을 찾을 수 없습니다."));
+
+        return MemberInfoResponse.from(member);
     }
 }
