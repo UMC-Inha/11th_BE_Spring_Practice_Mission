@@ -10,10 +10,12 @@ import com.umc.movie.exception.ApiException;
 import com.umc.movie.repository.MemberRepository;
 import com.umc.movie.repository.RatingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -54,7 +56,17 @@ public class RatingService {
                 .comment(request.comment())
                 .build();
 
-        return RatingResponse.from(ratingRepository.save(rating));
+        // 두 요청이 동시에 위 검사를 통과하면 DB의 (member_id, movie_id) UNIQUE 제약에 걸립니다.
+        // 그때도 같은 RATING409_1 응답을 주고, 다른 무결성 오류는 그대로 둡니다.
+        try {
+            return RatingResponse.from(ratingRepository.saveAndFlush(rating));
+        } catch (DataIntegrityViolationException exception) {
+            if (isDuplicateKey(exception)) {
+                throw new ApiException(HttpStatus.CONFLICT, "RATING409_1",
+                        "이미 이 영화에 평점을 남기셨습니다.");
+            }
+            throw exception;
+        }
     }
 
     @Transactional
@@ -90,5 +102,11 @@ public class RatingService {
         }
 
         return rating;
+    }
+
+    // MySQL 중복 키 오류 번호는 1062입니다.
+    private boolean isDuplicateKey(DataIntegrityViolationException exception) {
+        return exception.getMostSpecificCause() instanceof SQLException sqlException
+                && sqlException.getErrorCode() == 1062;
     }
 }
