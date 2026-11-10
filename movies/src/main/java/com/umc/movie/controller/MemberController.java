@@ -19,6 +19,8 @@ import com.umc.movie.dto.MemberInfoResponse;
 import com.umc.movie.interceptor.AuthInterceptor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
+import com.umc.movie.dto.MemberUpdateRequest;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 @RestController
 @RequiredArgsConstructor
@@ -53,5 +55,14 @@ public class MemberController {
     ) {
         MemberInfoResponse response = memberService.getMyInfo(memberId);
         return ResponseEntity.ok(ApiResponse.ok("회원 정보를 조회했습니다.", response));
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
+            @RequestBody @Valid MemberUpdateRequest request
+    ) {
+        MemberInfoResponse response = memberService.updateMyInfo(memberId, request);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 수정했습니다.", response));
     }
 }
