@@ -1,5 +1,6 @@
-package com.umc.movie.entity;
+package com.umc.movie.member.entity;
 
+import com.umc.movie.common.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +32,7 @@ public class Member extends BaseTimeEntity{
     @Column(nullable = false, unique = true, length = 50)
     private String nickname;
 
+    @Builder
     public Member(String email, String password, String nickname){
         this.email = email;
         this.password = password;

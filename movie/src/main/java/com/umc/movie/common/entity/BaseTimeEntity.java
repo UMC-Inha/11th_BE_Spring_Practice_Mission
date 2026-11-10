@@ -1,4 +1,4 @@
-package com.umc.movie.entity;
+package com.umc.movie.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
