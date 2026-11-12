@@ -9,7 +9,6 @@ public record ApiResponse<T>(
     public static <T> ApiResponse<T> created(String message, T result){
         return new ApiResponse<>(true, "COMMON201", message, result);
     }
-
     public static <T> ApiResponse<T> ok(String message, T result){
         return new ApiResponse<>(true, "COMMON200", message, result);
     }

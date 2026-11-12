@@ -1,8 +1,11 @@
 package com.umc.movie.member.controller;
 
+import com.umc.movie.auth.interceptor.AuthInterceptor;
 import com.umc.movie.common.response.ApiResponse;
+import com.umc.movie.member.dto.request.MemberUpdateRequest;
 import com.umc.movie.member.dto.request.SignUpRequest;
 import com.umc.movie.member.dto.response.EmailCheckResponse;
+import com.umc.movie.member.dto.response.MemberInfoResponse;
 import com.umc.movie.member.dto.response.MemberResponse;
 import com.umc.movie.member.dto.response.NicknameCheckResponse;
 import com.umc.movie.member.service.MemberService;
@@ -10,8 +13,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +42,24 @@ public class MemberController {
         MemberResponse response = memberService.signUp(request);
         return ResponseEntity.status(201)
                 .body(ApiResponse.created("회원가입에 성공했습니다.", response));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+            //인터셉터가 request.setAttribute("memberId"...)로 담아둔 값을 꺼냄
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId
+    ){
+        MemberInfoResponse response = memberService.getMyInfo(memberId);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 조회했습니다.", response));
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
+            @RequestBody @Valid MemberUpdateRequest request
+            ){
+        MemberInfoResponse response = memberService.updateMyInfo(memberId, request);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 수정했습니다.", response));
     }
 
 }
