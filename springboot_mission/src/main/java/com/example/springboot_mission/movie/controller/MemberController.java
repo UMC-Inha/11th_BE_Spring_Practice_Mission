@@ -2,6 +2,7 @@ package com.example.springboot_mission.movie.controller;
 
 import com.example.springboot_mission.global.response.ApiResponse;
 import com.example.springboot_mission.movie.dto.*;
+import com.example.springboot_mission.movie.interceptor.AuthInterceptor;
 import com.example.springboot_mission.movie.service.MemberService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -38,5 +39,23 @@ public class MemberController {
         MemberResponse response = memberService.signUp(request);
 
         return ResponseEntity.status(201).body(ApiResponse.created("회원가입에 성공했습니다", response));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId
+    ) {
+        MemberInfoResponse response = memberService.getMyInfo(memberId);
+
+        return ResponseEntity.ok(ApiResponse.ok("회원정보를 조회했습니다.", response));
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
+            @RequestBody @Valid MemberUpdateRequest request
+    ) {
+        MemberInfoResponse response = memberService.updateMyInfo(memberId, request);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 수정했습니다.", response));
     }
 }
