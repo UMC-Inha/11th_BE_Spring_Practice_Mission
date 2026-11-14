@@ -11,4 +11,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    open-in-view: false
+    open-in-vibuild.gradleew: false
