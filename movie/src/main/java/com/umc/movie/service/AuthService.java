@@ -1,7 +1,7 @@
 package com.umc.movie.service;
 
-import com.umc.movie.dto.LoginRequest;
-import com.umc.movie.dto.LoginResponse;
+import com.umc.movie.dto.req.LoginRequest;
+import com.umc.movie.dto.res.LoginResponse;
 import com.umc.movie.entity.Member;
 import com.umc.movie.exception.ApiException;
 import com.umc.movie.repository.MemberRepository;

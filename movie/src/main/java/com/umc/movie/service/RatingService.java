@@ -1,8 +1,8 @@
 package com.umc.movie.service;
 
-import com.umc.movie.dto.CreateRatingRequest;
-import com.umc.movie.dto.RatingResponse;
-import com.umc.movie.dto.UpdateRatingRequest;
+import com.umc.movie.dto.req.CreateRatingRequest;
+import com.umc.movie.dto.res.RatingResponse;
+import com.umc.movie.dto.req.UpdateRatingRequest;
 import com.umc.movie.entity.Member;
 import com.umc.movie.entity.Rating;
 import com.umc.movie.exception.ApiException;
@@ -60,11 +60,11 @@ public class RatingService {
         Rating rating = findOwnedRating(memberId, ratingId);
 
         if (!rating.getMovieId().equals(request.movieId())) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "RATING404_2","존재하지 않는 영화에 남겨진 평점입니다.");
+            throw new ApiException(HttpStatus.NOT_FOUND, "RATING400","존재하지 않는 영화에 남겨진 평점입니다.");
         }
 
         rating.update(request.score(), request.comment());
-        ratingRepository.save(rating);
+        ratingRepository.saveAndFlush(rating);
 
         return RatingResponse.from(rating);
     }

@@ -2,11 +2,12 @@
 package com.umc.movie.controller;
 
 import com.umc.movie.dto.ApiResponse;
-import com.umc.movie.dto.CreateRatingRequest;
-import com.umc.movie.dto.RatingResponse;
-import com.umc.movie.dto.UpdateRatingRequest;
+import com.umc.movie.dto.req.CreateRatingRequest;
+import com.umc.movie.dto.res.RatingResponse;
+import com.umc.movie.dto.req.UpdateRatingRequest;
 import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.RatingService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "평점 API", description = "평점 관련 기능")
 @RestController
 @RequiredArgsConstructor
 public class RatingController {

@@ -1,9 +1,9 @@
-package com.umc.movie.dto;
+package com.umc.movie.dto.req;
 
 import jakarta.validation.constraints.*;
 
-public record UpdateRatingRequest(
-        @NotNull(message = "영화 ID를 입력해주세요.")
+public record CreateMovieRecordRequest(
+        @NotNull(message = "영화 ID는 필수입니다.")
         @Positive(message = "영화 ID는 양수여야 합니다.")
         Long movieId,
 
@@ -13,6 +13,10 @@ public record UpdateRatingRequest(
         Integer score,
 
         @Size(max=500, message = "후기는 500자 이하로 입력해주세요.")
-        String comment
+        String comment,
+
+        @NotNull(message = "즐겨찾기 추가 여부는 필수입니다.")
+        Boolean addToFavorites
+
 ) {
 }

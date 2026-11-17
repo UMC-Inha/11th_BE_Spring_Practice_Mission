@@ -1,6 +1,11 @@
 package com.umc.movie.service;
 
-import com.umc.movie.dto.*;
+import com.umc.movie.dto.req.MemberUpdateRequest;
+import com.umc.movie.dto.req.SignUpRequest;
+import com.umc.movie.dto.res.EmailCheckResponse;
+import com.umc.movie.dto.res.MemberInfoResponse;
+import com.umc.movie.dto.res.MemberResponse;
+import com.umc.movie.dto.res.NicknameCheckResponse;
 import com.umc.movie.entity.Member;
 import com.umc.movie.exception.ApiException;
 import com.umc.movie.repository.MemberRepository;
