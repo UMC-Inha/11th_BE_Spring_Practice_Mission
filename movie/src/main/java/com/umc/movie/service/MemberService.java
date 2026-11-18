@@ -54,7 +54,7 @@ public class MemberService {
         return new MemberResponse(savedMember.getMemberId(), savedMember.getEmail(), savedMember.getNickname());
     }
 
-    @Transactional(readOnly = true)
+    // src/main/java/com/umc/movie/service/MemberService.java 에 아래 메서드를 추가합니다
     public MemberInfoResponse getMyInfo(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
@@ -63,7 +63,7 @@ public class MemberService {
         return MemberInfoResponse.from(member);
     }
 
-    @Transactional
+    // src/main/java/com/umc/movie/service/MemberService.java 에 아래 메서드를 추가합니다
     public MemberInfoResponse updateMyInfo(Long memberId, MemberUpdateRequest request) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
