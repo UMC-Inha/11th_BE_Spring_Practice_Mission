@@ -50,6 +50,7 @@ public class MemberService {
         return new MemberResponse(savedMember.getMemberId(), savedMember.getEmail(), savedMember.getNickname());
     }
 
+    @Transactional
     public MemberInfoResponse updateMyInfo(Long memberId, MemberUpdateRequest request) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
@@ -64,6 +65,15 @@ public class MemberService {
 
         member.updateNickname(request.nickname());
         memberRepository.save(member);
+
+        return MemberInfoResponse.from(member);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberInfoResponse getMyInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
+                        "해당 회원을 찾을 수 없습니다."));
 
         return MemberInfoResponse.from(member);
     }
