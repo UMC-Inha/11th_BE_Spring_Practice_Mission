@@ -2,10 +2,8 @@ package com.example.springboot_mission.movie.service;
 
 import com.example.springboot_mission.global.exception.ProjectException;
 import com.example.springboot_mission.movie.code.AuthErrorCode;
-import com.example.springboot_mission.movie.dto.EmailCheckResponse;
-import com.example.springboot_mission.movie.dto.MemberResponse;
-import com.example.springboot_mission.movie.dto.NicknameCheckResponse;
-import com.example.springboot_mission.movie.dto.SignUpRequest;
+import com.example.springboot_mission.movie.code.MemberErrorCode;
+import com.example.springboot_mission.movie.dto.*;
 import com.example.springboot_mission.movie.entity.Member;
 import com.example.springboot_mission.movie.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +53,28 @@ public class MemberService {
                 savedMember.getEmail(),
                 savedMember.getNickname()
                 );
+    }
+
+    @Transactional(readOnly = true)
+    public MemberInfoResponse getMyInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ProjectException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        return MemberInfoResponse.from(member);
+    }
+
+    @Transactional
+    public MemberInfoResponse updateMyInfo(Long memberId, MemberUpdateRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ProjectException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        if(memberRepository.existsByNicknameAndMemberIdNot(request.nickname(), memberId)) {
+            throw new ProjectException(MemberErrorCode.NICKNAME_ALREADY_USED);
+        }
+
+        member.updateNickName(request.nickname());
+        memberRepository.save(member);
+
+        return MemberInfoResponse.from(member);
     }
 }

@@ -6,3 +6,8 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PW}
+
+
+jwt:
+  secret: ${JWT_SECRET} # 서명에 쓸 비밀키. 코드에 직접 쓰지 않습니다
+  access-expiration: ${JWT_ACCESS_EXPIRATION} # 토큰 유효시간(초)
