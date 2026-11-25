@@ -62,9 +62,9 @@ public class RatingService {
         Rating rating = findOwnedRating(memberId, ratingId);
 
         rating.update(request.score(), request.comment());
-        Rating saved = ratingRepository.saveAndFlush(rating);
+        ratingRepository.save(rating);
 
-        return RatingResponse.from(saved);
+        return RatingResponse.from(rating);
     }
 
     @Transactional
