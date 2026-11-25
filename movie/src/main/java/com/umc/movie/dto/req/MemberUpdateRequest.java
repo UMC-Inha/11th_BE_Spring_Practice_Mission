@@ -1,4 +1,4 @@
-package com.umc.movie.dto;
+package com.umc.movie.dto.req;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

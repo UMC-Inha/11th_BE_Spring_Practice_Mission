@@ -1,6 +1,11 @@
 package com.umc.movie.controller;
 
 import com.umc.movie.dto.*;
+import com.umc.movie.dto.req.MemberUpdateRequest;
+import com.umc.movie.dto.req.SignUpRequest;
+import com.umc.movie.dto.res.EmailCheckResponse;
+import com.umc.movie.dto.res.MemberResponse;
+import com.umc.movie.dto.res.NicknameCheckResponse;
 import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.MemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -8,7 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.umc.movie.dto.MemberInfoResponse;
+import com.umc.movie.dto.res.MemberInfoResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
