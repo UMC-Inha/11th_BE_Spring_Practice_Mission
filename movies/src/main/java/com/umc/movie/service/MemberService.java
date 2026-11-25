@@ -59,6 +59,7 @@ public class MemberService {
         );
     }
 
+    @Transactional(readOnly = true)
     public MemberInfoResponse getMyInfo(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
@@ -67,6 +68,7 @@ public class MemberService {
         return MemberInfoResponse.from(member);
     }
 
+    @Transactional
     public MemberInfoResponse updateMyInfo(Long memberId, MemberUpdateRequest request) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
