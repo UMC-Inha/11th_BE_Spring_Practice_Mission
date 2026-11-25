@@ -18,6 +18,9 @@ import com.umc.movie.dto.MemberUpdateRequest;
 import org.springframework.web.bind.annotation.PatchMapping;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import com.umc.movie.config.SwaggerConfig;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +53,15 @@ public class MemberController {
                 .body(ApiResponse.created("회원가입에 성공했습니다.", response));
     }
 
-    // src/main/java/com/umc/movie/controller/MemberController.java 에 아래 메서드를 추가합니다
+    @Operation(
+            summary = "내 정보 조회",
+            description = "토큰의 주인인 회원의 이메일, 닉네임, 가입일을 조회합니다."
+    )
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "COMMON200 조회 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "AUTH401_2 토큰 없음, AUTH401_3 유효하지 않은 토큰, AUTH401_4 만료된 토큰")
+    })
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
             // 인터셉터가 request.setAttribute("memberId", ...)로 담아둔 값을 꺼냅니다
@@ -60,6 +71,17 @@ public class MemberController {
         return ResponseEntity.ok(ApiResponse.ok("회원 정보를 조회했습니다.", response));
     }
 
+    @Operation(
+            summary = "내 정보 수정",
+            description = "토큰의 주인인 회원의 닉네임을 수정합니다."
+    )
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "COMMON200 수정 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "COMMON4001 닉네임 검증 실패 (2자 이상 12자 이하)"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "AUTH401_2 토큰 없음, AUTH401_3 유효하지 않은 토큰, AUTH401_4 만료된 토큰"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "MEMBER409_1 이미 사용 중인 닉네임")
+    })
     @PatchMapping("/me")
     public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyInfo(
             @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
