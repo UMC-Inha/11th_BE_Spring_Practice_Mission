@@ -60,7 +60,7 @@ class FavoriteServiceTest {
     }
 
     @Test
-    @DisplayName("이미 즐겨찾기한 영화면 FAVORITE409_1 예외를 던지고 저장하지 않는다")
+    @DisplayName("이미 즐겨찾기한 영화면 FAVORITE4091 예외를 던지고 저장하지 않는다")
     void createFavoriteWhenDuplicated() {
         // given: 같은 회원이 같은 영화를 이미 즐겨찾기해 둔 상황
         given(memberRepository.findById(1L)).willReturn(Optional.of(member));
@@ -69,7 +69,7 @@ class FavoriteServiceTest {
         // when & then: 예외가 나고, 저장은 시도조차 하지 않는다
         assertThatThrownBy(() -> favoriteService.create(1L, new CreateFavoriteRequest(550L)))
                 .isInstanceOf(ProjectException.class)
-                .hasMessage("이미 이 영화를 즐겨찾기하셨습니다.");
+                .hasMessage("이미 이 영화를 즐겨찾기 하셨습니다.");
 
         verify(favoriteRepository, never()).save(any(Favorite.class));
     }

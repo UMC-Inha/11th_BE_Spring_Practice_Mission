@@ -59,14 +59,14 @@ class FavoriteApiTest {
     }
 
     @Test
-    @DisplayName("토큰 없이 즐겨찾기를 등록하면 401과 AUTH401_2를 응답한다")
+    @DisplayName("토큰 없이 즐겨찾기를 등록하면 401과 AUTH4012를 응답한다")
     void createFavoriteWithoutToken() throws Exception {
         mockMvc.perform(post("/favorites")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new CreateFavoriteRequest(550L))))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.isSuccess").value(false))
-                .andExpect(jsonPath("$.code").value("AUTH401_2"));
+                .andExpect(jsonPath("$.code").value("AUTH4012"));
     }
 
     @Test
@@ -82,7 +82,7 @@ class FavoriteApiTest {
     }
 
     @Test
-    @DisplayName("이미 즐겨찾기한 영화를 다시 등록하면 409와 FAVORITE409_1을 응답한다")
+    @DisplayName("이미 즐겨찾기한 영화를 다시 등록하면 409와 FAVORITE4091을 응답한다")
     void createFavoriteWhenDuplicated() throws Exception {
         favoriteRepository.save(Favorite.builder().member(member).movieId(550L).build());
 
@@ -91,7 +91,7 @@ class FavoriteApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new CreateFavoriteRequest(550L))))
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.code").value("FAVORITE409_1"));
+                .andExpect(jsonPath("$.code").value("FAVORITE4091"));
     }
 
     @Test
