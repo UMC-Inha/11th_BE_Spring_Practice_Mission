@@ -81,6 +81,14 @@ public class FavoriteController {
                 .body(ApiResponse.created("즐겨찾기를 등록했습니다.", response));
     }
 
+    @Operation(
+            summary = "내 즐겨찾기 조회",
+            description = "[토큰 필요] 로그인한 회원이 즐겨찾기한 영화 목록을 최신 등록순으로 조회합니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공 (COMMON200)"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "토큰 없음/무효/만료 (AUTH401_2, AUTH401_3, AUTH401_4)")
+    })
     @GetMapping("/favorites")
     public ResponseEntity<ApiResponse<List<FavoriteResponse>>> getMyFavorites(
             @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId
@@ -89,6 +97,14 @@ public class FavoriteController {
         return ResponseEntity.ok(ApiResponse.ok("내 즐겨찾기 목록을 조회했습니다.", response));
     }
 
+    @Operation(
+            summary = "즐겨찾기 여부 조회",
+            description = "[토큰 필요] 특정 영화를 내가 즐겨찾기했는지 isFavorite(true/false)로 알려줍니다. 즐겨찾기하지 않았어도 404가 아니라 200과 false를 응답합니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공 (COMMON200)"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "토큰 없음/무효/만료 (AUTH401_2, AUTH401_3, AUTH401_4)")
+    })
     @GetMapping("/favorites/{movieId}")
     public ResponseEntity<ApiResponse<FavoriteStatusResponse>> getStatus(
             @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
@@ -98,6 +114,15 @@ public class FavoriteController {
         return ResponseEntity.ok(ApiResponse.ok("즐겨찾기 여부를 조회했습니다.", response));
     }
 
+    @Operation(
+            summary = "즐겨찾기 해제",
+            description = "[토큰 필요] 내 즐겨찾기에서 해당 영화를 삭제합니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "해제 성공 (COMMON200)"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "토큰 없음/무효/만료 (AUTH401_2, AUTH401_3, AUTH401_4)"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "즐겨찾기한 영화가 아님 (FAVORITE404_1)")
+    })
     @DeleteMapping("/favorites/{movieId}")
     public ResponseEntity<ApiResponse<Void>> delete(
             @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
