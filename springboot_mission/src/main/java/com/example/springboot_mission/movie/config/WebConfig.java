@@ -36,7 +36,10 @@ public class WebConfig implements WebMvcConfigurer {
                         "/members/nickname/**",
                         "/members/email/**",
                         "/members/*/ratings",
-                        "/error"
+                        "/error",
+                        "/swagger-ui.html",      // Swagger UI로 보내주는 주소
+                        "/swagger-ui/**",        // Swagger UI 화면
+                        "/v3/api-docs/**"
                 );
     }
 }
