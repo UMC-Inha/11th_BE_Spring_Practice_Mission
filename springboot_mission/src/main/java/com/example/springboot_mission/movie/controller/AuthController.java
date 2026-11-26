@@ -4,6 +4,11 @@ import com.example.springboot_mission.global.response.ApiResponse;
 import com.example.springboot_mission.movie.dto.LoginRequest;
 import com.example.springboot_mission.movie.dto.LoginResponse;
 import com.example.springboot_mission.movie.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +20,56 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "인증", description = "로그인과 토큰 발급 API")
 public class AuthController {
 
     private final AuthService authService;
 
+    @Operation(
+            summary = "이메일 로그인",
+            description = "토큰 없이 호출할 수 있는 공개 API입니다. 이메일과 비밀번호로 로그인하고 Access Token을 발급받습니다. 발급된 토큰 값은 위쪽 Authorize 버튼에 입력하면 인증이 필요한 API의 Authorization 헤더에 자동으로 실립니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200", description = "이메일 로그인 성공",
+                    content = @Content(mediaType = "application/json", examples = {
+                            @ExampleObject(value = """
+                                    {
+                                      "isSuccess": true,
+                                      "code": "COMMON200",
+                                      "message": "로그인에 성공했습니다",
+                                      "result": {
+                                        "nickname": "영화조아",
+                                        "accessToken": "발급된 JWT 값"
+                                      }
+                                    }
+                                    """)
+                    })),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400", description = "요청 값 검증 실패 (message는 실패한 검증 조건에 따라 달라짐)",
+                    content = @Content(mediaType = "application/json", examples = {
+                            @ExampleObject(value = """
+                                    {
+                                      "isSuccess": false,
+                                      "code": "COMMON400",
+                                      "message": "이메일 형식이 올바르지 않습니다.",
+                                      "result": null
+                                    }
+                                    """)
+                    })),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401", description = "이메일 또는 비밀번호 불일치",
+                    content = @Content(mediaType = "application/json", examples = {
+                            @ExampleObject(value = """
+                                    {
+                                      "isSuccess": false,
+                                      "code": "AUTH4011",
+                                      "message": "이메일 또는 비밀번호가 올바르지 않습니다.",
+                                      "result": null
+                                    }
+                                    """)
+                    }))
+    })
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(
             @RequestBody @Valid LoginRequest request
