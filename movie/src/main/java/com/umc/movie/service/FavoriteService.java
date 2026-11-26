@@ -29,8 +29,8 @@ public class FavoriteService {
                         "해당 회원을 찾을 수 없습니다."));
 
         if (favoriteRepository.existsByMember_MemberIdAndMovieId(memberId, request.movieId())) {
-            throw new ApiException(HttpStatus.CONFLICT, "FAVORITE409_1",
-                    "이미 이 영화를 즐겨찾기하셨습니다.");
+          throw new ApiException(HttpStatus.CONFLICT, "FAVORITE409_1",
+                   "이미 이 영화를 즐겨찾기하셨습니다.");
         }
 
         Favorite favorite = Favorite.builder()
