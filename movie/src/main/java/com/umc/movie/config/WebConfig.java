@@ -16,28 +16,28 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173")
+                .allowedOrigins(
+                        "http://localhost:5173",
+                        "http://localhost:3000"
+                )
                 .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*");
     }
-
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
-                        "/auth/**",              // 로그인
-                        "/members",              // 회원가입 (POST /members)
-                        "/members/nickname/**",  // 닉네임 중복 체크
-                        "/members/email/**",     // 이메일 중복 체크
-                        "/members/*/ratings",    // 유저별 평점 조회 (누구나 볼 수 있는 목록)
-                        "/error",                // 스프링이 내부적으로 쓰는 경로
-                        "/swagger-ui.html",      // Swagger UI로 보내주는 주소
-                        "/swagger-ui/**",        // Swagger UI 화면
-                        "/v3/api-docs/**"        // Swagger UI가 읽어가는 API 문서(JSON)
+                        "/auth/**",
+                        "/members",
+                        "/members/nickname/**",
+                        "/members/email/**",
+                        "/members/*/ratings",
+                        "/error",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**"
                 );
     }
-
-
 }
