@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/interceptor/AuthInterceptor.java
 package com.umc.movie.interceptor;
 
 import com.umc.movie.exception.ApiException;

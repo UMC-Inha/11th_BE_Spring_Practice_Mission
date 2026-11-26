@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/exception/ApiException.java
 package com.umc.movie.exception;
 
 import lombok.Getter;

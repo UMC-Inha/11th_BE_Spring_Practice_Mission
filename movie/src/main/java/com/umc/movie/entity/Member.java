@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/entity/Member.java
 package com.umc.movie.entity;
 
 import jakarta.persistence.*;
@@ -35,7 +34,6 @@ public class Member extends BaseTimeEntity {
         this.nickname = nickname;
     }
 
-    // src/main/java/com/umc/movie/entity/Member.java 에 아래 메서드를 추가합니다
     public void updateNickname(String nickname) {
         this.nickname = nickname;
     }

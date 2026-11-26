@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/config/PasswordConfig.java
 package com.umc.movie.config;
 
 import org.springframework.context.annotation.Bean;
