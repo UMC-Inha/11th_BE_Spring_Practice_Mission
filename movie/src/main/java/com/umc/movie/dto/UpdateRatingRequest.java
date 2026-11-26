@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/dto/UpdateRatingRequest.java
 package com.umc.movie.dto;
 
 import jakarta.validation.constraints.Max;

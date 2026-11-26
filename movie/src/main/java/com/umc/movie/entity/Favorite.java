@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/entity/Favorite.java
 package com.umc.movie.entity;
 
 import jakarta.persistence.Column;

@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/controller/MovieRecordController.java
 package com.umc.movie.controller;
 
 import com.umc.movie.dto.ApiResponse;

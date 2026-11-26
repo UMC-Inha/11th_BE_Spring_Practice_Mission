@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/config/WebConfig.java (5주차에 만든 파일에 이어서 작성합니다)
 package com.umc.movie.config;
 
 import com.umc.movie.interceptor.AuthInterceptor;
@@ -35,7 +34,10 @@ public class WebConfig implements WebMvcConfigurer {
                         "/members/nickname/**",  // 닉네임 중복 체크
                         "/members/email/**",     // 이메일 중복 체크
                         "/members/*/ratings",    // 유저별 평점 조회 (누구나 볼 수 있는 목록)
-                        "/error"                 // 스프링이 내부적으로 쓰는 경로
+                        "/error",                // 스프링이 내부적으로 쓰는 경로
+                        "/swagger-ui.html",      // Swagger UI로 보내주는 주소
+                        "/swagger-ui/**",        // Swagger UI 화면
+                        "/v3/api-docs/**"        // Swagger UI가 읽어가는 API 문서(JSON)
                 );
     }
 }

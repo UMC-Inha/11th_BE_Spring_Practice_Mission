@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/dto/MemberInfoResponse.java
 package com.umc.movie.dto;
 
 import com.umc.movie.entity.Member;

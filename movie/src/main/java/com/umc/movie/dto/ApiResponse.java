@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/dto/ApiResponse.java
 package com.umc.movie.dto;
 
 public record ApiResponse<T>(boolean isSuccess, String code, String message, T result) {

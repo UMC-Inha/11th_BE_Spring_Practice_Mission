@@ -1,4 +1,3 @@
-// src/main/java/com/umc/movie/util/JwtUtil.java
 package com.umc.movie.util;
 
 import com.umc.movie.exception.ApiException;
